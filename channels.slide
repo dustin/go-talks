@@ -119,6 +119,36 @@ If you will always be sending to a fixed number of channels, you can just do thi
 
 .image channels/results.png
 
+* The go-saturate API
+
+If you have a managable number of destinations and can express your work like this:
+
+  type WorkInput struct {
+      // The work item the worker should receive.
+      Input interface{}
+      // The list of eligible worker names (destinations).
+      Dests []string
+  }
+
+then the API will take care of keeping your destinations saturated.
+
+* Usage
+
+First, create a `*Saturator` instance with your known destinations and a function to create a worker:
+
+  func New(dests []string, w func(dest string) Worker,
+      conf *Config) *Saturator
+
+A channel is created for every destination.
+
+One or more workers are created per channel.
+
+then just feed it work:
+
+  func (s *Saturator) Saturate(input <-chan WorkInput) error
+
+A selector is dynamically created per task and the first worker to pick up a task gets it.
+
 * Other Applications - Search
 
 .image channels/search.png
