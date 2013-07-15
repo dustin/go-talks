@@ -1,4 +1,4 @@
-all about channels
+efficient parallelism with channels
 
 Dustin Sallings
 2013-07-15
@@ -8,6 +8,12 @@ Dustin Sallings
 A channel is a synchronous rendezvous point allowing a goroutine to send a value to another goroutine.
 
 In general, *one* sender synchronously meets *one* receiver.
+
+* What's This Talk About?
+
+Not channels.  At least, not comprehensively.
+
+Not really, but it will seem like it on the way to understanding go-saturate's design.
 
 * Basics
 
