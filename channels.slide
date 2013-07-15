@@ -43,6 +43,8 @@ and most importantly
 
 Select allows a channel operation to be *non-blocking*.
 
+The `default` case is handled immediately iff no channel ops are ready.
+
 .play channels/nonblock.go /ch :=/,/\s+}/
 
 * Select - Nondeterminism
