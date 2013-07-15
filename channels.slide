@@ -29,11 +29,14 @@ Multiple goroutines can write to a channel or read from a channel.
 
 There are a few edge cases to wherein things behave slightly differently.
 
-- buffered<-
-- closedchan<-
 - <-closedchan
-- nil<-
 - <-nil
+- buffered<-
+- nil<-
+- closedchan<-
+
+and most importantly
+
 - *select*
 
 * Select - Remover of Obstacles
