@@ -1,0 +1,102 @@
+all about channels
+
+Dustin Sallings
+2013-07-15
+
+* What's a Channel?
+
+A channel is a synchronous rendezvous point allowing a goroutine to send a value to another goroutine.
+
+In general, *one* sender synchronously meets *one* receiver.
+
+* Edges
+
+- buffered<-
+- closedchan<-
+- <-closedchan
+- nil<-
+- <-nil
+- select
+
+* Basics
+
+.play channels/basic.go /ch :=/,/Println/
+
+* Multiple Ends
+
+Multiple goroutines can write to a channel or read from a channel.
+
+.play channels/multi.go /workch :=/,/Total is/
+
+* Select - The Hard Parts
+
+Select allows a channel operation to be *non-blocking*.
+
+.play channels/nonblock.go /ch :=/,/\s+}/
+
+* Select - The Hard Parts
+
+If multiple channels are ready to communicate, one is chosen at random.
+
+.play channels/selectrand.go /^func main/,/^}/
+
+* Where Are We Going with This?
+
+With a bit of background on how channels work, along with select, I hope it quickly becomes obvious what saturate does and why it does it.
+
+With channels, we can have a fixed number of workers working on a stream of tasks.
+
+.image channels/onetier.png
+
+* When Does This Not Work?
+
+If there are multiple sources of information chosen randomly and one is slower than the rest, you'll frequently have all workers waiting for that resource while other sources remain idle.
+
+.image channels/hot.png
+
+* Solution:  Double-fanout
+
+Same toplevel work distribution.  Workers identify sources.  First source to respond is the only one to receive the request.
+
+.image channels/twotier.png
+
+* CBFS Example
+
+.image channels/cbfsreq.png
+
+- blob1: `[node1,`node3,`node4]`
+- blob2: `[node1,`node2,`node4]`
+- blob3: `[node3,`node4,`node5]`
+
+Worst random case: `{blob1:node4,`blob2:node4,`blob3:node4}`
+
+Potential optimal result: `{blob1:node1,`blob2:node2,`blob3:node3}`
+
+* Do We Need Channels Here?
+
+No, but...
+
+- When everything is optimal, we want mostly random distribution.
+- We never want to choose a worker that isn't ready.
+- When all workers are busy, we want the very next one that's ready.
+- We don't want our event delivered to more than one worker.
+
+* Refresher: Sending to Any
+
+If you will always be sending to a fixed number of channels, you can just do this:
+
+.play channels/any.go /^func sendToAny/,/^}/
+
+\...but in CBFS, a blob can be on anywhere from 1 to 100s of nodes.
+
+* How Do I Express a Worker Set Dynamically?
+
+.code channels/reflect.go /^func/,/^}/
+
+* Results
+
+.image channels/results.png
+
+* Other Applications - Search
+
+.image channels/search.png
