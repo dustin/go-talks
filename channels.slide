@@ -1,7 +1,10 @@
 efficient parallelism with channels
+(the long story of go-saturate)
+15 Jul 2013
+Tags: go, channel
 
 Dustin Sallings
-2013-07-15
+@dlsspy
 
 * What's a Channel?
 
