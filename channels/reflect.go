@@ -11,7 +11,7 @@ func dynamicSendToAny(nodes []node, task thingToSend) {
 		cases = append(cases, reflect.SelectCase{
 			Dir:  reflect.SelectSend,
 			Chan: reflect.ValueOf(node.channel), // HL
-			Send: reflect.ValueOf(thing),
+			Send: reflect.ValueOf(task),
 		})
 	}
 
