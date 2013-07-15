@@ -9,15 +9,6 @@ A channel is a synchronous rendezvous point allowing a goroutine to send a value
 
 In general, *one* sender synchronously meets *one* receiver.
 
-* Edges
-
-- buffered<-
-- closedchan<-
-- <-closedchan
-- nil<-
-- <-nil
-- select
-
 * Basics
 
 .play channels/basic.go /ch :=/,/Println/
@@ -28,13 +19,24 @@ Multiple goroutines can write to a channel or read from a channel.
 
 .play channels/multi.go /workch :=/,/Total is/
 
-* Select - The Hard Parts
+* Edges
+
+There are a few edge cases to wherein things behave slightly differently.
+
+- buffered<-
+- closedchan<-
+- <-closedchan
+- nil<-
+- <-nil
+- *select*
+
+* Select - Remover of Obstacles
 
 Select allows a channel operation to be *non-blocking*.
 
 .play channels/nonblock.go /ch :=/,/\s+}/
 
-* Select - The Hard Parts
+* Select - Nondeterminism
 
 If multiple channels are ready to communicate, one is chosen at random.
 
