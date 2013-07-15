@@ -47,6 +47,12 @@ The `default` case is handled immediately iff no channel ops are ready.
 
 .play channels/nonblock.go /ch :=/,/\s+}/
 
+* Select - Timeout
+
+But you can also mix your desired op with, for example, a delayed send for an op timeout:
+
+.play channels/timeout.go /ch :=/,/\s+}/
+
 * Select - Nondeterminism
 
 If multiple channels are ready to communicate, one is chosen at random.
