@@ -6,17 +6,17 @@ Tags: go, channel
 Dustin Sallings
 @dlsspy
 
+* What's This Talk About?
+
+Not channels.
+
+(not really, but it will seem like it on the way to understanding go-saturate's design.)
+
 * What's a Channel?
 
 A channel is a synchronous rendezvous point allowing a goroutine to send a value to another goroutine.
 
 In general, *one* sender synchronously meets *one* receiver.
-
-* What's This Talk About?
-
-Not channels.  At least, not comprehensively.
-
-Not really, but it will seem like it on the way to understanding go-saturate's design.
 
 * Basics
 
